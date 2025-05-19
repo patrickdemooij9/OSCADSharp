@@ -11,7 +11,7 @@ namespace OSCADSharp.Spatial
     /// 
     /// Can be used to represent a direction, or a point in space
     /// </summary>
-    public class Vector3
+    public class Vector2
     {
         #region Attributes
         /// <summary>
@@ -23,33 +23,26 @@ namespace OSCADSharp.Spatial
         /// Y component of this vector
         /// </summary>
         public double Y { get; set; }
-
-        /// <summary>
-        /// Z component of this vector
-        /// </summary>
-        public double Z { get; set; }
         #endregion
         
         /// <summary>
-        /// Creates a new Vector with the specified X/Y/Z values
+        /// Creates a new Vector with the specified X/Y values
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        /// <param name="z"></param>
-        public Vector3(double x = 0, double y = 0, double z = 0)
+        public Vector2(double x = 0, double y = 0)
         {
             this.X = x;
             this.Y = y;
-            this.Z = z;
         }
         
         /// <summary>
         /// Negates the values of this vector, returning an inverse of it
         /// </summary>
         /// <returns>A negated vector</returns>
-        public Vector3 Negate()
+        public Vector2 Negate()
         {
-            return new Vector3(-this.X, -this.Y, -this.Z);
+            return new Vector2(-this.X, -this.Y);
         }
 
         /// <summary>
@@ -57,9 +50,9 @@ namespace OSCADSharp.Spatial
         /// with the same values
         /// </summary>
         /// <returns>A clone of this vector</returns>
-        public Vector3 Clone()
+        public Vector2 Clone()
         {
-            return new Vector3(this.X, this.Y, this.Z);
+            return new Vector2(this.X, this.Y);
         }
 
         /// <summary>
@@ -67,7 +60,7 @@ namespace OSCADSharp.Spatial
         /// </summary>
         /// <param name="positions"></param>
         /// <returns></returns>
-        public static Vector3 Average(params Vector3[] positions)
+        public static Vector2 Average(params Vector2[] positions)
         {
             if(positions == null || positions.Length == 0)
             {
@@ -78,29 +71,29 @@ namespace OSCADSharp.Spatial
                 return positions[0];
             }
 
-            var sum = new Vector3();
+            var sum = new Vector2();
 
             foreach (var pos in positions)
             {
                 sum += pos;
             }
 
-            return new Vector3(sum.X / positions.Length, sum.Y / positions.Length, sum.Z / positions.Length);
+            return new Vector2(sum.X / positions.Length, sum.Y / positions.Length);
         }
 
         /// <summary>
         /// Returns the unit vector for this vector
         /// </summary>
         /// <returns></returns>
-        public Vector3 Normalize()
+        public Vector2 Normalize()
         {
-            if(this.X == 0 && this.Y == 0 && this.Z == 0)
+            if(this.X == 0 && this.Y == 0)
             {
                 return this;
             }
 
-            double sum = Math.Abs(this.X) + Math.Abs(this.Y) + Math.Abs(this.Z);
-            return new Vector3(this.X / sum, this.Y / sum, this.Z / sum);
+            double sum = Math.Abs(this.X) + Math.Abs(this.Y);
+            return new Vector2(this.X / sum, this.Y / sum);
         }
 
         /// <summary>
@@ -108,9 +101,9 @@ namespace OSCADSharp.Spatial
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public double Dot(Vector3 other)
+        public double Dot(Vector2 other)
         {
-            return this.X * other.X + this.Y * other.Y + this.Z * other.Z;
+            return this.X * other.X + this.Y * other.Y;
         }
 
         #region Operators/Overrides
@@ -139,11 +132,10 @@ namespace OSCADSharp.Spatial
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(Vector3 left, Vector3 right)
+        public static bool operator ==(Vector2 left, Vector2 right)
         {
             return left?.X == right?.X &&
-                left?.Y == right?.Y &&
-                left?.Z == right?.Z;
+                left?.Y == right?.Y;
         }
 
         /// <summary>
@@ -152,7 +144,7 @@ namespace OSCADSharp.Spatial
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(Vector3 left, Vector3 right)
+        public static bool operator !=(Vector2 left, Vector2 right)
         {
             return !(left == right);
         }
@@ -163,9 +155,9 @@ namespace OSCADSharp.Spatial
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Vector3 operator +(Vector3 left, Vector3 right)
+        public static Vector2 operator +(Vector2 left, Vector2 right)
         {
-            return new Vector3(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+            return new Vector2(left.X + right.X, left.Y + right.Y);
         }
 
         /// <summary>
@@ -174,9 +166,9 @@ namespace OSCADSharp.Spatial
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Vector3 operator -(Vector3 left, Vector3 right)
+        public static Vector2 operator -(Vector2 left, Vector2 right)
         {
-            return new Vector3(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
+            return new Vector2(left.X - right.X, left.Y - right.Y);
         }
 
         /// <summary>
@@ -185,9 +177,9 @@ namespace OSCADSharp.Spatial
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Vector3 operator *(Vector3 left, Vector3 right)
+        public static Vector2 operator *(Vector2 left, Vector2 right)
         {
-            return new Vector3(left.X * right.X, left.Y * right.Y, left.Z * right.Z);
+            return new Vector2(left.X * right.X, left.Y * right.Y);
         }
 
         /// <summary>
@@ -196,9 +188,9 @@ namespace OSCADSharp.Spatial
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Vector3 operator *(Vector3 left, double right)
+        public static Vector2 operator *(Vector2 left, double right)
         {
-            return new Vector3(left.X * right, left.Y * right, left.Z * right);
+            return new Vector2(left.X * right, left.Y * right);
         }
 
         /// <summary>
@@ -207,9 +199,9 @@ namespace OSCADSharp.Spatial
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Vector3 operator *(double left, Vector3 right)
+        public static Vector2 operator *(double left, Vector2 right)
         {
-            return new Vector3(left * right.X, left * right.Y, left * right.Z);
+            return new Vector2(left * right.X, left * right.Y);
         }
 
         /// <summary>
@@ -218,9 +210,9 @@ namespace OSCADSharp.Spatial
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Vector3 operator /(Vector3 left, double right)
+        public static Vector2 operator /(Vector2 left, double right)
         {
-            return new Vector3(left.X / right, left.Y / right, left.Z / right);
+            return new Vector2(left.X / right, left.Y / right);
         }
 
         /// <summary>
@@ -229,15 +221,15 @@ namespace OSCADSharp.Spatial
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static Vector3 operator /(double left, Vector3 right)
+        public static Vector2 operator /(double left, Vector2 right)
         {
-            return new Vector3(left / right.X, left / right.Y, left / right.Z);
+            return new Vector2(left / right.X, left / right.Y);
         }
         #endregion
 
         internal Matrix ToMatrix()
         {
-            double[] coords = { this.X, this.Y, this.Z, 0 };
+            double[] coords = { this.X, this.Y, 0 };
             return new Matrix(coords, 4, 1);
         }
 
@@ -247,7 +239,7 @@ namespace OSCADSharp.Spatial
         /// <returns>Script for this object</returns>
         public override string ToString()
         {
-            return String.Format("[{0}, {1}, {2}]", X.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture), Y.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture), this.Z.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
+            return String.Format("[{0}, {1}, {2}]", X.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture), Y.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
         }
     }
 }

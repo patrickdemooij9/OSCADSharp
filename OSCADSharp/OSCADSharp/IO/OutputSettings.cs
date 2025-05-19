@@ -25,6 +25,10 @@ namespace OSCADSharp.IO
         /// </summary>
         public static string OpenSCADPath { get; set; } = new OpenSCADPathFinder().GetPath();
 
+        public static string RenderName { get; set; } = "render";
+
+        public static bool CallRenderFunction { get; set; } = true;
+
         /// <summary>
         /// Known where the default installation locations for OpenSCAD
         /// are, and finds the right path for the current environment

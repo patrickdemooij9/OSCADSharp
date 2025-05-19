@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,14 @@ namespace OSCADSharp.Utility
 
                 SB.Append(name);
                 SB.Append(" = ");
-                SB.Append(value);
+                if (value is double numberValue)
+                {
+                    SB.Append(numberValue.ToString(CultureInfo.InvariantCulture));
+                }
+                else
+                {
+                    SB.Append(value.ToString());
+                }
             }
         }
 

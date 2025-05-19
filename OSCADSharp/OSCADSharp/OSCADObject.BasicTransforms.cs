@@ -295,5 +295,93 @@ namespace OSCADSharp
             }
         }
         #endregion
+
+        #region Extrude
+        private class LinearExtrudeObject : SingleStatementObject
+        {
+            public double Height { get; set; } = 1;
+
+            public Vector3 Vector { get; set; }
+
+            public int Resolution { get; set; } = 10;
+
+            internal LinearExtrudeObject(OSCADObject obj) : base(obj)
+            {
+            }
+
+            public override Bounds Bounds()
+            {
+                return obj.Bounds();
+            }
+
+            public override OSCADObject Clone()
+            {
+                return new LinearExtrudeObject(this.obj.Clone())
+                {
+                    Height = this.Height,
+                    Vector = this.Vector,
+                    Resolution = this.Resolution,
+                };
+            }
+
+            public override Vector3 Position()
+            {
+                return new Vector3();
+            }
+
+            public override string ToString()
+            {
+                var stringBuilder = new StringBuilder();
+                stringBuilder.Append("linear_extrude(");
+                stringBuilder.Append($"height={Height},");
+                if (Vector != null)
+                {
+                    stringBuilder.Append($"v={Vector},");
+                }
+                stringBuilder.Append($"$fn={Resolution}");
+                stringBuilder.Append(")");
+                var formatter = new SingleBlockFormatter(stringBuilder.ToString(), this.obj.ToString());
+                return formatter.ToString();
+            }
+        }
+        #endregion
+
+        #region RotateExtrude
+        private class RotateExtrudeObject : SingleStatementObject
+        {
+            public double Angle { get; set; } = 360;
+            public int Resolution { get; set; } = 10;
+
+            internal RotateExtrudeObject(OSCADObject obj) : base(obj)
+            {
+            }
+
+            public override Bounds Bounds()
+            {
+                return obj.Bounds();
+            }
+
+            public override OSCADObject Clone()
+            {
+                return new RotateExtrudeObject(this.obj.Clone())
+                {
+                    Angle = this.Angle,
+                    Resolution = this.Resolution,
+                };
+            }
+
+            public override Vector3 Position()
+            {
+                return new Vector3();
+            }
+
+            public override string ToString()
+            {
+                var commmand = String.Format("rotate_extrude(angle = {0}, $fn = {1})", Angle, Resolution);
+                var formatter = new SingleBlockFormatter(commmand, this.obj.ToString());
+                return formatter.ToString();
+            }
+        }
+        #endregion
     }
 }

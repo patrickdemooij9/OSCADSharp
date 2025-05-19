@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OSCADSharp</RootNamespace>
     <AssemblyName>OSCADSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,6 +51,8 @@
     <Compile Include="Solids\Compound\Box.cs" />
     <Compile Include="Solids\Compound\Tube.cs" />
     <Compile Include="Solids\Imported\ImageImportOptions.cs" />
+    <Compile Include="Solids\Polygon.cs" />
+    <Compile Include="Spatial\Vector2.cs" />
     <Compile Include="Utility\Images\CubistImageProcessor.cs" />
     <Compile Include="Utility\Images\HeightMapper.cs" />
     <Compile Include="Utility\Images\IImageProcessor.cs" />

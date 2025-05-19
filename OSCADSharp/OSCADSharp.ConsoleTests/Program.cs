@@ -3,6 +3,7 @@ using OSCADSharp.Solids.Compound;
 using OSCADSharp.Solids.Imported;
 using OSCADSharp.Spatial;
 using OSCADSharp.Utility;
+using System;
 
 namespace OSCADSharp.ConsoleTests
 {
@@ -368,7 +369,7 @@ namespace OSCADSharp.ConsoleTests
 
         static void Main(string[] args)
         {
-            //makeCenterTwoByFourBracket();
+            /*//makeCenterTwoByFourBracket();
             //makeSideTwoByFourBracket();
             makeDiceHolder();
             //makeACBrackets();
@@ -440,7 +441,11 @@ namespace OSCADSharp.ConsoleTests
 
             //(cyl + axisHelper).ToFile("test.scad").Open();
 
-            //Console.ReadKey();
+            //Console.ReadKey();*/
+
+            var box = new Box(50, 50, 50, 1.2);
+            box.ToFile("test.scad").Open();
+            Console.ReadKey();
         }
     }
 }

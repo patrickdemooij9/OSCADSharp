@@ -168,7 +168,26 @@ namespace OSCADSharp
         public OSCADObject Translate(double x, double y, double z)
         {
             return this.Translate(new Vector3(x, y, z));
-        }        
+        }
+
+        public OSCADObject LinearExtrude(double height, Vector3 vector = null, int resolution = 10)
+        {
+            return new LinearExtrudeObject(this)
+            {
+                Height = height,
+                Vector = vector,
+                Resolution = resolution
+            };
+        }
+
+        public OSCADObject RotateExtrude(double angle, int resolution = 10)
+        {
+            return new RotateExtrudeObject(this)
+            {
+                Angle = angle,
+                Resolution = resolution
+            };
+        }
         #endregion
 
         #region Minkowski/Hull
@@ -348,11 +367,13 @@ namespace OSCADSharp
             {
                 path += ".scad";
             }
-            
+
+            var formatter = new SingleBlockFormatter($"module {OutputSettings.RenderName}()", ToString());
+
             Dependencies.FileWriter.WriteAllLines(path, new string[] 
             {
                 OutputSettings.OSCADSharpHeader,
-                this.ToString()
+                $"{formatter}{(OutputSettings.CallRenderFunction ? "\r\n{OutputSettings.RenderName}();" : string.Empty)}"
             });
 
             return Dependencies.FileInvokerFactory(path);
